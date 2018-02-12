@@ -25,12 +25,18 @@ export const defaultState = {}
 
 export default function(state = defaultState, action) {
   const { type, payload } = action
-  const { id, exchange, market } = payload || {}
+
+  if ( type.indexOf(PREFIX) !== 0 ) {
+    return state
+  }
+
+  const id = createMarketId(payload.exchange, payload.market)
 
   switch (type) {
 
     case ADD_MARKET:
     case UPDATE_MARKET:
+
       return {
         ...state,
         [id]: {
@@ -40,6 +46,7 @@ export default function(state = defaultState, action) {
       }
 
     case REMOVE_MARKET:
+
       return Object.keys(state).reduce((result, key) => {
         if (key !== id) {
           result[key] = state[key]
@@ -48,6 +55,7 @@ export default function(state = defaultState, action) {
       }, {})
 
     case PATCH_MARKET:
+
       return {
         ...state,
         [id]: {
@@ -59,6 +67,7 @@ export default function(state = defaultState, action) {
       break;
 
     case UPTODATE:
+
       return {
         ...state,
         [id]: {
@@ -69,6 +78,7 @@ export default function(state = defaultState, action) {
       break;
 
     case PATCH_INDICATORS:
+
       return {
         ...state,
         [id]: {
@@ -89,4 +99,17 @@ export default function(state = defaultState, action) {
     default:
       return state;
   }
+}
+
+export function createMarketId(exchange, market) {
+  if (!exchange || !market) {
+    return 'INVALID_MARKET_ID'
+  }
+  const currencies = market.split('/')
+  return (exchange + '_' + currencies[1] + '_' + currencies[0] ).toUpperCase()
+}
+
+// Utils
+export function getMarket(state, exchange, market) {
+  return state.markets[createMarketId(exchange, market)]
 }

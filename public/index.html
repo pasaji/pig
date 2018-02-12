@@ -194,6 +194,12 @@
 </style>
 <body>
 <!-- see: http://bl.ocks.org/andredumas/27c4a333b0e0813e093d -->
+<h3>Balances:</h3>
+<ul>
+  <li>USDT: <span class="usdt">0</span></li>
+  <li>ETH: <span class="uth">0</span></li>
+</ul>
+
 <button>Reset</button>
 <script src="http://d3js.org/d3.v4.min.js"></script>
 <script src="http://techanjs.org/techan.min.js"></script>
@@ -503,6 +509,11 @@
     d3.json("/state", function(error, data) {
 
         var openOrders = data.agent.openOrders;
+        var balances = data.trader.balances;
+
+        d3.select('.usdt').text(balances['USDT']);
+        d3.select('.eth').text(balances['ETH']);
+
         data = data.markets['POLONIEX_USDT_ETH'].data;
 
 
@@ -537,7 +548,7 @@
 
 
         var trades = openOrders.map(function(item, index) {
-          return { date: data[item.index].date, type: item.type, price: data[item.index].low, low: data[item.index].low, high: data[item.index].high };
+          return { date: data[item.backtest.index].date, type: item.type, price: data[item.backtest.index].low, low: data[item.backtest.index].low, high: data[item.backtest.index].high };
         });
 
         /*

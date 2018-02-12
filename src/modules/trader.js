@@ -11,6 +11,9 @@ const PREFIX = 'trader/';
 // export const actions = { };
 
 // Reducer
+
+// TODO: balances ovat exhange kohtaisia joten ne pitäisi olla siellä
+// traderilla voisi olla kokonaiskooste
 export const defaultState = {
   balances: {
     USDT: 1000,

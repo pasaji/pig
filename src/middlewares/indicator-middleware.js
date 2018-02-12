@@ -11,6 +11,10 @@ import {
   runBacktest
 } from '../modules/bot'
 
+import {
+  getMarket
+} from '../modules/markets'
+
 import adx from '../indicators/adx'
 import rsi from '../indicators/rsi'
 import bb from '../indicators/bb'
@@ -23,7 +27,8 @@ export function createMiddleware() {
       case UPDATE_INDICATORS:
         next(action)
 
-        const data = store.getState().markets[payload.id].data
+        const { exchange, market } = payload || {}
+        const data = getMarket(store.getState(), exchange, market ).data
 
         // TODO: define indicatrors at store ???
         async.series([
@@ -49,11 +54,11 @@ export function createMiddleware() {
               }
             }
           }
-          store.dispatch(patchIndicators({ id: payload.id, startIndex: 0, indicators: indicators }))
-          store.dispatch(runBacktest({ id: payload.id, startIndex: 21 }))
+          store.dispatch(patchIndicators({ exchange, market, startIndex: 0, indicators: indicators }))
+          store.dispatch(runBacktest({ exchange, market, startIndex: 21 }))
         })
         break;
-        
+
       default:
         next(action)
     }

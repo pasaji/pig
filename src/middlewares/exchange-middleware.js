@@ -25,7 +25,7 @@ export function createMiddleware() {
   return store => next => action => {
 
     const { type, payload } = action
-    const { id, exchange, market } = payload || {}
+    const { exchange, market } = payload || {}
 
     switch (type) {
 
@@ -44,7 +44,8 @@ export function createMiddleware() {
             });
           }, cb => {
             store.dispatch(patchMarket({
-              id: id,
+              exchange,
+              market,
               taker: exchanges[exchange].market(market).taker,
               maker: exchanges[exchange].market(market).maker
             }))
@@ -66,32 +67,51 @@ export function createMiddleware() {
                   volume: d[5]
                 }
               })
-              store.dispatch(patchMarket({ id: id, data: data }))
+              store.dispatch(patchMarket({
+                exchange,
+                market,
+                data: data
+              }))
               cb()
             }, cb);
-          }, cb => {
+          }/*, cb => {
             exchanges[exchange].fetchOrderBook(market, 20).then(function(result) {
-              store.dispatch(patchMarket({ id: id, orderBook: result }))
+              store.dispatch(patchMarket({
+                exchange,
+                market,
+                orderBook: result
+              }))
               cb()
             }, cb);
           }, cb => {
             const since = new Date().getTime() - 1 * MINUTE
             exchanges[exchange].fetchTrades(market, since).then(function(result) {
-              store.dispatch(patchMarket({ id: id, trades: result }))
+              store.dispatch(patchMarket({
+                exchange,
+                market,
+                trades: result
+              }))
               cb()
             }, cb);
           }, cb => {
             exchanges[exchange].fetchTicker(market).then(function(result) {
-              store.dispatch(patchMarket({ id: id, ticker: result }))
+              store.dispatch(patchMarket({
+                exchange,
+                market,
+                ticker: result
+              }))
               cb()
             }, cb);
-          }
+          }*/
         ], (err, results) => {
           if (err) {
             console.log(err);
             return
           }
-          store.dispatch(updateIndicators({ id: id }))
+          store.dispatch(updateIndicators({
+            exchange,
+            market
+          }))
         })
         break
 

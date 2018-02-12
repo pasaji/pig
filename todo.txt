@@ -1,0 +1,46 @@
+TODOs
+
+[ ] LoadInitialData (timeframe)
+[ ] ProcessData / CreateState / UpdateState
+    [ ] CreateIndicators / Update[ ] LoadInitialData
+        - MACD
+        - EMA9, EMA21
+        - Levels
+        - AVG Frequency
+        - AVG Dynamics
+[ ] Tick
+
+[ ] Store (Redux?)
+    [ ] State
+        + exchange(s)
+          + market(s) (module)
+            + id
+            + trades
+            + indicators
+            + orderBook
+
+        + agent
+          + tasks // buy, sell, cancel
+        + advisor
+        + trader
+
+        + settings
+    [ ] Actions
+        +
+
+[ ] Retriever Middleware
+    + getTrades
+
+
+
+[ ] Agent
+[ ] FakeAgent (simulation)
+
+[ ] Trader ('ME')
+    [ ] createOrder <BUY|SELL>
+    [ ] cancelOrder
+
+[ ] Advisor Strategy
+    [ ] BPMN
+
+[ ] Logger

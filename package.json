@@ -1,0 +1,27 @@
+{
+  "name": "pig",
+  "version": "1.0.0",
+  "description": "PIG - Passive Income Generator",
+  "main": "server.js",
+  "scripts": {
+    "start": "babel-node server.js --presets es2015,stage-2",
+    "dev": "nodemon server.js --exec babel-node --presets es2015,stage-2",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Joonas Pasanen",
+  "license": "ISC",
+  "dependencies": {
+    "asciichart": "^1.5.7",
+    "async": "^2.6.0",
+    "ccxt": "^1.10.977",
+    "express": "^4.16.2",
+    "redux": "^3.7.2",
+    "redux-actions": "^2.2.1",
+    "talib": "^1.0.4"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1"
+  }
+}
